@@ -9,6 +9,12 @@
 static const char *_cmdPath = "/sys/class/backlight/";
 static char *_cmdVendor = "intel_backlight";
 
+static char *kParamVendor = "--vendor";
+static char *kCommandGet = "get";
+static char *kCommandSet = "set";
+static char *kCommandInc = "inc";
+static char *kCommandDec = "dec";
+
 
 char _cmdOutput[1024];
 char *execute_cmd(const char *cmdAction)
@@ -29,13 +35,9 @@ char *execute_cmd(const char *cmdAction)
 	return NULL;	
 }
 
-bool eq(const char *arg, const char *longval, const char *shortval)
+bool eq(const char *arg, const char *longval)
 {
 	if (! strcmp(arg, longval)) {
-		return true;
-	}
-
-	if (! strcmp(arg, shortval)) {
 		return true;
 	}
 
@@ -48,17 +50,21 @@ void print_usage()
 		"USAGE:\n"
 		"	command [value]\n\n"
 		"COMMANDS:\n"
-		"	Set custom vendor\n"
-		"	--vendor -v, argument value Identifier, default is %s\n\n"
-		"	Get backlight level\n"
-		"	--get -g, no arguments, returns [0..1]\n\n"
-		"	Set backlight level\n"
-		"	--set -s, argument value [0..1]\n\n"
-		"	Increase backlight level by 0.1\n"
-		"	--inc -i, no arguments\n\n"
-		"	Decrease backlight level by 0.1\n"
-		"	--dec -d, no arguments\n\n",
-		_cmdVendor
+		"	[ Set custom vendor ]\n"
+		"	%s ; argument value Identifier, default is %s\n\n"
+		"	[ Get backlight level ]\n"
+		"	%s ; no arguments, returns [0..1]\n\n"
+		"	[ Set backlight level ]\n"
+		"	%s ; argument value [0..1]\n\n"
+		"	[ Increase backlight level by 0.1 ]\n"
+		"	%s ; no arguments\n\n"
+		"	[ Decrease backlight level by 0.1 ]\n"
+		"	%s ; no arguments\n\n",
+		kParamVendor, _cmdVendor,
+		kCommandGet,
+		kCommandSet,
+		kCommandInc,
+		kCommandDec
 	);
 }
 
@@ -127,24 +133,24 @@ int main(int argc, char *argv[])
 	for (int i=1; i<argc; i++) {
 		const char *arg = argv[i];
 
-		if (eq(arg, "--vendor", "-v")) {
+		if (eq(arg, kParamVendor)) {
 			assert_last_arg();
 			_cmdVendor = argv[++i];
 		}
-		else if (eq(arg, "--get", "-g")) {
+		else if (eq(arg, kCommandGet)) {
 			print_level();
 			break;
 		}
-		else if (eq(arg, "--set", "-s")) {
+		else if (eq(arg, kCommandSet)) {
 			assert_last_arg();
 			set_level_str(argv[++i]);
 			break;
 		}
-		else if (eq(arg, "--inc", "-i")) {
+		else if (eq(arg, kCommandInc)) {
 			inc_level();
 			break;
 		}
-		else if (eq(arg, "--dec", "-d")) {
+		else if (eq(arg, kCommandDec)) {
 			dec_level();
 			break;
 		}
@@ -153,4 +159,3 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-
