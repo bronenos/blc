@@ -139,23 +139,24 @@ int main(int argc, char *argv[])
 		}
 		else if (eq(arg, kCommandGet)) {
 			print_level();
-			break;
+			return 0;
 		}
 		else if (eq(arg, kCommandSet)) {
 			assert_last_arg();
 			set_level_str(argv[++i]);
-			break;
+			return 0;
 		}
 		else if (eq(arg, kCommandInc)) {
 			inc_level();
-			break;
+			return 0;
 		}
 		else if (eq(arg, kCommandDec)) {
 			dec_level();
-			break;
+			return 0;
 		}
 	}
 #	undef assert_last_arg
 
+	print_usage();
 	return 0;
 }
