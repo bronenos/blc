@@ -19,7 +19,7 @@ static char *kCommandDec = "dec";
 char _cmdOutput[1024];
 char *execute_cmd(const char *cmdAction)
 {
-	char cmd[1024];
+	char cmd[256];
 	strcpy(cmd, _cmdPath);
 	strcat(cmd, _cmdVendor);
 	chdir(cmd);
