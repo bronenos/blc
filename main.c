@@ -19,16 +19,12 @@ static char *kCommandDec = "dec";
 char _cmdOutput[1024];
 char *execute_cmd(const char *cmdAction)
 {
-	char cmd[256];
-
+	char cmd[1024];
 	strcpy(cmd, _cmdPath);
 	strcat(cmd, _cmdVendor);
 	chdir(cmd);
 
-	strcpy(cmd, "sudo ");
-	strcat(cmd, cmdAction);
-
-	FILE *sp = popen(cmd, "r");
+	FILE *sp = popen(cmdAction, "r");
 	if (sp) {
 		fgets(_cmdOutput, sizeof(_cmdOutput), sp);
 		pclose(sp);
