@@ -9,11 +9,11 @@
 static const char *_cmdPath = "/sys/class/backlight/";
 static char *_cmdVendor = "intel_backlight";
 
-static char *kParamVendor = "--vendor";
-static char *kCommandGet = "get";
-static char *kCommandSet = "set";
-static char *kCommandInc = "inc";
-static char *kCommandDec = "dec";
+static char *kCommandVendor	= "--vendor";
+static char *kCommandGet	= "get";
+static char *kCommandSet	= "set";
+static char *kCommandInc	= "inc";
+static char *kCommandDec	= "dec";
 
 
 char _cmdOutput[1024];
@@ -37,7 +37,7 @@ char *execute_cmd(const char *cmdAction)
 
 bool eq(const char *arg, const char *longval)
 {
-	if (! strcmp(arg, longval)) {
+	if (strcmp(arg, longval) == 0) {
 		return true;
 	}
 
@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
 	for (int i=1; i<argc; i++) {
 		const char *arg = argv[i];
 
-		if (eq(arg, kParamVendor)) {
+		if (eq(arg, kCommandVendor)) {
 			assert_last_arg();
 			_cmdVendor = argv[++i];
 		}
